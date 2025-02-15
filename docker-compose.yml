@@ -1,0 +1,71 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/nginx/certs:/etc/nginx/certs
+    depends_on:
+      - main_service
+      - frontend
+    networks:
+      - app_network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - ./config/rabbit/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+    networks:
+      - app_network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    command: ["redis-server", "--save", ""]
+    networks:
+      - app_network
+
+  main_service:
+    build: ./main_service
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - REDIS_HOST=redis
+    depends_on:
+      - rabbitmq
+      - redis
+    networks:
+      - app_network
+
+  run_service:
+    build: ./run_service
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - REDIS_HOST=redis
+    depends_on:
+      - rabbitmq
+      - redis
+    networks:
+      - app_network
+
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    networks:
+      - app_network
+
+networks: 
+  app_network:
+    driver: bridge
