@@ -21,11 +21,25 @@ class CookieConfig:
     access_token_key: str
     max_age_days: int
 
+@dataclass(frozen=True, slots=True)
+class PostgresConfig:
+    user: str
+    password: str
+    host: str
+    port: str
+    db_name: str
+    debug: bool
+
+    @property
+    def uri(self) -> str:
+        return f"postgresql+asyncpg://{self.user}:{self.password}@{self.host}:{self.port}/{self.db_name}"
+
 
 @dataclass(frozen=True)
 class Config:
     jwt: JWTConfig
     cookie: CookieConfig
+    db: PostgresConfig
 
 
 def create_cookie_config() -> CookieConfig:
@@ -49,6 +63,15 @@ def create_cookie_config() -> CookieConfig:
         max_age_days=max_age_days,
     )
 
+def create_db_config() -> PostgresConfig:
+    return PostgresConfig(
+            user=getenv("POSTGRES_USER"),
+            password=getenv("POSTGRES_PASSWORD"),
+            host=getenv("POSTGRES_HOST"),
+            port=getenv("POSTGRES_PORT"),
+            db_name=getenv("POSTGRES_DB"),
+            debug=getenv("POSTGRES_DEBUG") == "true",
+        )
 
 def create_config() -> Config:
     base_path: Path = Path.cwd().parent.parent
@@ -83,4 +106,5 @@ def create_config() -> Config:
             ),
         ),
         cookie=create_cookie_config(),
+        db=create_db_config(),
     )

@@ -78,6 +78,11 @@ Follow individual READMEs for service-specific configurations:
 docker-compose up --build
 ```
 
+###### wait for main_servise to be ready
+```bash
+docker-compose exec main_service poetry run alembic -c /app/conf/alembic.ini revision --autogenerate -m "first init"
+```
+
 **Access the app at:** https://127.0.0.1/
 
 ---

@@ -1,14 +1,15 @@
 FROM python:3.12-slim
 
-# Отключаем буферизацию Python
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 
-RUN apt-get update && apt-get install -y curl supervisor && \
-    rm -rf /var/lib/apt/lists/* && \
-    curl -sSL https://install.python-poetry.org | python3 - && \
-    ln -s /root/.local/bin/poetry /usr/local/bin/poetry
-
+RUN apt-get update && apt-get install -y \
+    curl \
+    supervisor \
+    netcat-openbsd \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -sSL https://install.python-poetry.org | python3 - \
+    && ln -s /root/.local/bin/poetry /usr/local/bin/poetry
 WORKDIR /app
 
 COPY .env .env 
@@ -20,7 +21,11 @@ RUN poetry config virtualenvs.in-project true && \
     poetry install --no-interaction --no-ansi --no-root
 
 COPY ./src ./src
-COPY ./conf/supervisord.conf /etc/supervisor/supervisord.conf
-COPY ./certs ./certs 
+COPY ./conf ./conf
+COPY ./conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./certs ./certs
 
-CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+COPY /scripts/entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+CMD ["/app/entrypoint.sh"]
