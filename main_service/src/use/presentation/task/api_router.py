@@ -2,7 +2,7 @@ from typing import Annotated, cast
 from uuid import uuid4
 
 from dishka.integrations.fastapi import DishkaRoute, FromDishka
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, Body
 
 from use.application.broker_publisher.service import BrokerPublisherService
 from use.application.cache.service import CacheService
@@ -80,7 +80,7 @@ async def create_completed_task(
 
 @router.post("/run/{task_id}/")
 async def send_to_run_task(
-    task_input: TaskRunRequest,
+    task_input: Annotated[TaskRunRequest, Body()],
     task_service: FromDishka[TaskService],
     idp: FromDishka[IdentityProvider],
     request: Request,

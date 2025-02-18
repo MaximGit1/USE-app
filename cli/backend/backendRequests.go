@@ -16,9 +16,6 @@ type UserInput struct {
 	Password string `json:"password"`
 }
 
-type UserRole struct {
-	Role string `json:"role"`
-}
 
 func CreateUserAdmin(userData UserInput, cliData CLIData) (string, error) {
 	userID, err := registerUser(userData, cliData)
@@ -79,9 +76,14 @@ func registerUser(userData UserInput, cliData CLIData) (uint32, error) {
 }
 
 func updateUserRole(userID uint32, cliData CLIData) error {
-    url := fmt.Sprintf("%s/users/%d/update/role?role=admin", cliData.APIURL, userID)
+    url := fmt.Sprintf("%s/users/%d/update/role", cliData.APIURL, userID)
 
-    req, err := http.NewRequest("PATCH", url, nil)
+    jsonData, err := json.Marshal("admin")
+    if err != nil {
+        return fmt.Errorf("failed to marshal role data: %v", err)
+    }
+
+    req, err := http.NewRequest("PATCH", url, bytes.NewBuffer(jsonData))
     if err != nil {
         return fmt.Errorf("failed to create request: %v", err)
     }
@@ -113,6 +115,7 @@ func updateUserRole(userID uint32, cliData CLIData) error {
 
     return nil
 }
+
 
 func setCommonHeaders(req *http.Request) {
 	req.Header.Set("Content-Type", "application/json")

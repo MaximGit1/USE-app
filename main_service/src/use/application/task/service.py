@@ -134,3 +134,15 @@ class TaskService:
         ):
             await self._delete.completed_task(completed_task_id)
         await self._uow.commit()
+    
+    async def delete_all_task_info(self, task_id: int) -> None:
+        try:
+            await self._delete.base_task(task_id=TaskID(task_id))
+            for completed_task_id in await self._read.get_all_completed_task_ids(
+                TaskID(task_id)
+            ):
+                await self._delete.completed_task(completed_task_id)
+            await self._uow.commit()
+        except Exception as e:
+            await self._uow.rollback()
+            raise e

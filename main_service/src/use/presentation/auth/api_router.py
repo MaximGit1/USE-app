@@ -1,5 +1,7 @@
+from typing import Annotated
+
 from dishka.integrations.fastapi import DishkaRoute, FromDishka
-from fastapi import APIRouter, Request, Response
+from fastapi import APIRouter, Request, Response, Body
 
 from use.application.auth.service import AuthService
 from use.application.broker_publisher.service import BrokerPublisherService
@@ -61,7 +63,7 @@ async def logout(
 async def verify_current_user_role(
     idp: FromDishka[IdentityProvider],
     broker: FromDishka[BrokerPublisherService],
-    role: RoleEnum,
+    role: Annotated[RoleEnum, Body()],
     request: Request,
 ) -> bool:
     idp.update_service(request=request)

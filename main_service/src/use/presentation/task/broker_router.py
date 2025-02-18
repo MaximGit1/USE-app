@@ -20,5 +20,4 @@ async def save_ran_task(
 async def delete_task_and_completed_tasks(
     task_id: int, service: FromDishka[TaskService]
 ) -> None:
-    await service.delete_all_completed_tasks(base_task_id=task_id)
-    await service.delete_base_task(task_id=task_id)
+    await service.delete_all_task_info(task_id=task_id)

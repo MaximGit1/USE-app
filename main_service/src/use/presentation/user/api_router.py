@@ -1,5 +1,7 @@
+from typing import Annotated
+
 from dishka.integrations.fastapi import DishkaRoute, FromDishka
-from fastapi import APIRouter
+from fastapi import APIRouter, Body
 
 from use.application.user.request.models import (
     SearchFilters,
@@ -43,7 +45,7 @@ async def get_user_by_username(
 @router.patch("/{user_id}/update/role")
 async def update_role(
     user_id: int,
-    role: RoleEnum,
+    role: Annotated[RoleEnum, Body()] ,
     user_service: FromDishka[UserService],
 ) -> None:
     await user_service.change_role(
@@ -56,7 +58,7 @@ async def update_role(
 async def update_user_status(
     user_id: int,
     *,
-    is_active: bool,
+    is_active: Annotated[bool, Body()],
     user_service: FromDishka[UserService],
 ) -> None:
     await user_service.change_status(
