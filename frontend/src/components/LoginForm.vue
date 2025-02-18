@@ -5,6 +5,8 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
+const apiUrl = import.meta.env.VITE_API_URL;
+const authLogin = apiUrl + "/auth/login/";
 // Данные формы
 const username = ref("");
 const password = ref("");
@@ -17,9 +19,8 @@ const login = async () => {
   isLoading.value = true;
 
   try {
-    const response = await axios.post(
-      "https://127.0.0.1:8000/auth/login/",
-      {
+    const response = await axios.post(authLogin, 
+    {
         username: username.value,
         password: password.value,
       },

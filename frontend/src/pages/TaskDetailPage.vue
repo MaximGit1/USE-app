@@ -13,9 +13,12 @@ const toggleInfo = () => {
     showInfo.value = !showInfo.value
 }
 
+const apiUrl = import.meta.env.VITE_API_URL;
+const authVerifyUser = apiUrl + "/auth/verify-role/?role=user";
+
 async function checkPermission() {
     try {
-        const response = await fetch('https://127.0.0.1:8000/auth/verify-role/?role=admin', {
+        const response = await fetch(authVerifyUser, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -46,11 +49,12 @@ onMounted(async () => {
 
         // Загрузка данных задачи
         const taskId = route.params.taskId
+        const taskDetail = apiUrl + `/tasks/base/${taskId}`;
 
         if (history.state?.id) {
             task.value = history.state
         } else {
-            const response = await fetch(`https://127.0.0.1:8000/tasks/base/${taskId}`)
+            const response = await fetch(taskDetail)
             if (!response.ok) throw new Error("Ошибка загрузки данных")
             const data = await response.json()
             

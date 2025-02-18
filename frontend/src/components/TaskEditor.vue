@@ -10,6 +10,7 @@ import 'codemirror/addon/edit/closebrackets.js'
 import 'codemirror/addon/display/placeholder.js'
 import 'codemirror/addon/scroll/scrollpastend.js'
 
+
 const props = defineProps({
     showInfo: Boolean,
     toggleInfo: Function,
@@ -57,8 +58,11 @@ const send_task_to_run = async () => {
     errorMessage.value = ''
     testResult.value = null
 
+    const apiUrl = import.meta.env.VITE_API_URL;
+    const taskRun = apiUrl + `/tasks/run/${props.taskId}/`;
+
     try {
-        const response = await fetch(`https://127.0.0.1:8000/tasks/run/${props.taskId}/`, {
+        const response = await fetch(taskRun, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

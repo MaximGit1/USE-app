@@ -38,11 +38,13 @@
     { id: 'tasks', label: 'Задачи', icon: 'bi bi-list-task' },
     { id: 'users', label: 'Пользователи', icon: 'bi bi-people' }
   ]
-  
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const authVerifyAdmin = apiUrl + "/auth/verify-role/?role=admin";
   // Функция проверки прав доступа
   async function checkPermission() {
     try {
-      const response = await fetch('https://127.0.0.1:8000/auth/verify-role/?role=admin', {
+      const response = await fetch(authVerifyAdmin, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

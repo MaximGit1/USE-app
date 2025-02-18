@@ -107,11 +107,13 @@
     answer: '',
     time_limit: 60
   })
-  
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const createTaskUrl = apiUrl + "/tasks/create/base/";
   const createTask = async () => {
     try {
       loading.value = true
-      const response = await fetch('https://127.0.0.1:8000/tasks/create/base/', {
+      const response = await fetch(createTaskUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTask.value)

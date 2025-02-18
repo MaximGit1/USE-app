@@ -40,9 +40,11 @@ const confirmDelete = async () => {
     $toast.error('Пожалуйста, введите корректный ID задачи.')
     return
   }
-
+  const apiUrl = import.meta.env.VITE_API_URL;
+  
   try {
-    const response = await axios.delete(`https://127.0.0.1:8000/tasks/${taskId.value}/`)
+    const deleteTask = apiUrl + `/tasks/${taskId.value}/`;
+    const response = await axios.delete(deleteTask)
     
     if (response.status === 200) {
       $toast.success(`Задача с ID ${taskId.value} поставлена в очередь на удаление!`)
