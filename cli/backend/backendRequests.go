@@ -48,12 +48,12 @@ func registerUser(userData UserInput, cliData CLIData) (uint32, error) {
 	tr := &http.Transport{
         TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
     }
-    
+
     client := &http.Client{
         Transport: tr,
         Timeout:   10 * time.Second,
     }
-    
+
 	resp, err := client.Do(req)
 	if err != nil {
 		return 0, err
@@ -93,7 +93,7 @@ func updateUserRole(userID uint32, cliData CLIData) error {
     tr := &http.Transport{
         TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
     }
-    
+
     client := &http.Client{
         Transport: tr,
         Timeout:   10 * time.Second,

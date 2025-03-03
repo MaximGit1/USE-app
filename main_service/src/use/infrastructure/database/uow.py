@@ -1,9 +1,13 @@
 from __future__ import annotations
-import types
-from typing import Any
-from sqlalchemy.ext.asyncio import AsyncSession
+
+from typing import TYPE_CHECKING, Any, Self
+
 from use.application.common.protocols.uow import UoWProtocol
 
+if TYPE_CHECKING:
+    import types
+
+    from sqlalchemy.ext.asyncio import AsyncSession
 
 class SqlAlchemyUoW(UoWProtocol):
     def __init__(self, session: AsyncSession) -> None:
@@ -21,7 +25,7 @@ class SqlAlchemyUoW(UoWProtocol):
     async def rollback(self) -> None:
         await self._session.rollback()
 
-    async def __aenter__(self) -> SqlAlchemyUoW:
+    async def __aenter__(self) -> Self:
         return self
 
     async def __aexit__(

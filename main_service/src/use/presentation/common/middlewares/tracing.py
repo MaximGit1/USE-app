@@ -1,8 +1,8 @@
 import logging
+import sys
 import time
 import traceback
 from enum import IntEnum
-import sys
 
 from starlette.middleware.base import (
     BaseHTTPMiddleware,
@@ -11,20 +11,22 @@ from starlette.middleware.base import (
 from starlette.requests import Request
 from starlette.responses import Response
 
+
 def setup_logging() -> logging.Logger:
     logger = logging.getLogger("api_logger")
     logger.setLevel(logging.INFO)
-    
+
     handler = logging.StreamHandler(sys.stdout)
     formatter = logging.Formatter(
-        "%(asctime)s [%(levelname)s] %(message)s | %(request_method)s %(request_url)s"
+        "%(asctime)s [%(levelname)s] %(message)s "
+        "| %(request_method)s %(request_url)s"
     )
     handler.setFormatter(formatter)
-    
+
     # Удаляем старые обработчики (если есть)
     if logger.hasHandlers():
         logger.handlers.clear()
-        
+
     logger.addHandler(handler)
     logger.propagate = False
 

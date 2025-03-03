@@ -9,4 +9,3 @@ import HeaderMenu from "./components/HeaderMenu.vue";
       <router-view />
   </div>
 </template>
-

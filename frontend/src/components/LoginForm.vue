@@ -19,7 +19,7 @@ const login = async () => {
   isLoading.value = true;
 
   try {
-    const response = await axios.post(authLogin, 
+    const response = await axios.post(authLogin,
     {
         username: username.value,
         password: password.value,

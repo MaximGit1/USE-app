@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
     && ln -s /root/.local/bin/poetry /usr/local/bin/poetry
 WORKDIR /app
 
-COPY .env .env 
+COPY .env .env
 
 ENV PYTHONPATH="${PYTHONPATH}:/app/src"
 

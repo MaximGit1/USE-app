@@ -41,4 +41,3 @@ def execute_with_limits(code, timeout: int):
         return output_queue.get()
 
     return "The code terminated without output."
-

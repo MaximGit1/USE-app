@@ -1,6 +1,6 @@
 from dishka import AsyncContainer, make_async_container
 
-from use.main.config import create_config, Config
+from use.main.config import Config, create_config
 from use.main.di.providers.adapters import get_adapters_providers
 from use.main.di.providers.usecases import get_use_cases_providers
 

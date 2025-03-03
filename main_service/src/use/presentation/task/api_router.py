@@ -2,7 +2,7 @@ from typing import Annotated, cast
 from uuid import uuid4
 
 from dishka.integrations.fastapi import DishkaRoute, FromDishka
-from fastapi import APIRouter, Depends, Request, Body
+from fastapi import APIRouter, Body, Depends, Request
 
 from use.application.broker_publisher.service import BrokerPublisherService
 from use.application.cache.service import CacheService

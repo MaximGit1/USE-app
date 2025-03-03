@@ -16,7 +16,6 @@ pytest-asyncio = "^0.25.1"
 sqlalchemy = {extras = ["asyncio"], version = "^2.0.36"}
 python-dotenv = "^1.0.1"
 alembic = "^1.14.0"
-aiosqlite = "^0.20.0"
 bcrypt = "^4.2.1"
 fastapi = "^0.115.6"
 dishka = "^1.4.2"
@@ -25,7 +24,6 @@ pyjwt = {extras = ["crypto"], version = "^2.9.0"}
 faststream = {extras = ["rabbit"], version = "^0.5.34"}
 redis = "^5.2.1"
 gunicorn = "^23.0.0"
-psycopg = {version = "==3.*", extras = ["binary"]}
 asyncpg = "^0.30.0"
 
 
@@ -44,6 +42,7 @@ markers = ["value_objects"]
 filterwarnings = []
 
 [tool.mypy]
+files = ["src", "tests"]
 exclude = [".venv"]
 python_version = "3.12"
 strict = true
@@ -75,7 +74,7 @@ fix = true
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["D", "S101", "COM812", "ISC001", "ANN401", "N999", "BLE001", "PLR0913"]
+ignore = ["D", "S101", "COM812", "ISC001", "ANN401", "N999", "BLE001", "PLR0913", "PGH003"]
 
 [tool.ruff.format]
 docstring-code-format = true

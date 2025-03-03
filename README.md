@@ -1,19 +1,19 @@
 # 📚 USE-app - Unified State Exam Assistant Platform 🚀
 
-**Your All-in-One Solution for Mastering Informatics Exams!**  
+**Your All-in-One Solution for Mastering Informatics Exams!**
 *DEMO Version - Bridging the Gap Between Learning & Excellence*
 
 ---
 
 ## 🚨 The Problem & Our Solution
 
-⚠️ **"The Era of Tutors is Ending!"** - With growing discussions about phasing out private tutors, students need empowered self-learning tools.  
+⚠️ **"The Era of Tutors is Ending!"** - With growing discussions about phasing out private tutors, students need empowered self-learning tools.
 
-✅ **USE-app Comes to Rescue!** A full-stack platform for solving standardized Informatics exam tasks using Python.  
-- 🧠 **Learn**: Access curated task-solving methodologies  
-- 💻 **Code**: Write solutions directly in-browser  
-- ✅ **Validate**: Get instant feedback on your answers  
-- 📈 **Track Progress**: Monitor your learning journey  
+✅ **USE-app Comes to Rescue!** A full-stack platform for solving standardized Informatics exam tasks using Python.
+- 🧠 **Learn**: Access curated task-solving methodologies
+- 💻 **Code**: Write solutions directly in-browser
+- ✅ **Validate**: Get instant feedback on your answers
+- 📈 **Track Progress**: Monitor your learning journey
 
 ---
 
@@ -39,14 +39,14 @@
 
 ### 🎨 Frontend
 - **Framework**: Vue 3
-- **Styling**: Bootstrap 5 
-- **Tools**: Axios, Vue Router  
+- **Styling**: Bootstrap 5
+- **Tools**: Axios, Vue Router
 
 ### 🛠 Infrastructure
-- **Orchestration**: Docker Compose 🐳  
-- **Web Server**: Nginx (SSL termination + reverse proxy)  
-- **Messaging**: RabbitMQ 🐇  
-- **Caching**: Redis 🔥  
+- **Orchestration**: Docker Compose 🐳
+- **Web Server**: Nginx (SSL termination + reverse proxy)
+- **Messaging**: RabbitMQ 🐇
+- **Caching**: Redis 🔥
 
 ---
 
@@ -100,4 +100,3 @@ We welcome contributions! Please follow these steps:
 4. ⬆️ Push to the branch (git push origin feature/amazing-feature)
 
 5. 🔀 Open a Pull Request
-

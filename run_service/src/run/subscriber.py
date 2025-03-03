@@ -27,4 +27,3 @@ async def run_task(task: TaskRunSubscriberRequest) -> None:
         )
 
     await send_run_task(task=result)
-

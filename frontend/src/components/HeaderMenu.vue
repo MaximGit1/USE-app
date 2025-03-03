@@ -39,11 +39,11 @@ onMounted(() => {
   <nav class="navbar navbar-expand-md navbar-light bg-light">
     <div class="container-fluid">
       <router-link class="navbar-brand" to="/">USE</router-link>
-      
-      <button 
-        class="navbar-toggler" 
-        type="button" 
-        data-bs-toggle="collapse" 
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
         data-bs-target="#navbarContent"
       >
         <span class="navbar-toggler-icon"></span>
@@ -61,12 +61,12 @@ onMounted(() => {
 
         <ul class="navbar-nav ms-auto">
           <li class="nav-item dropdown">
-            <a 
-              class="nav-link dropdown-toggle" 
-              href="#" 
-              id="userDropdown" 
-              role="button" 
-              data-bs-toggle="dropdown" 
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="userDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
               aria-expanded="false"
             >
               <i class="bi bi-person-circle me-1"></i>Профиль
@@ -129,7 +129,7 @@ onMounted(() => {
   .navbar-collapse {
     margin-top: 1rem;
   }
-  
+
   .dropdown-menu {
     border: none;
     box-shadow: none;

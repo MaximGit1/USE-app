@@ -12,7 +12,7 @@ const fetchTasks = async () => {
     try {
         const response = await fetch(allTasksUrl)
         const data = await response.json()
-        
+
         // Приводим данные API к формату, который используется в TaskCard
         tasks.value = data.map(task => ({
             id: task.id,
@@ -39,8 +39,8 @@ const goToDetail = (task) => {
 <template>
     <div class="container">
         <h1>Список задач</h1>
-        <TaskCard 
-            v-for="task in tasks" 
+        <TaskCard
+            v-for="task in tasks"
             :key="task.id"
             :id="task.id"
             :type="task.type"

@@ -14,24 +14,29 @@ const toggleInfo = () => {
 };
 
 const apiUrl = import.meta.env.VITE_API_URL;
-const authVerifyAdmin = apiUrl + "/auth/verify-role/";
+const authVerifyUser = apiUrl + "/auth/verify-role/";
+
 async function checkPermission() {
   try {
-    const response = await fetch(authVerifyAdmin, {
-      method: 'POST',
+    const response = await fetch(authVerifyUser, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      credentials: 'include',
-      body: JSON.stringify({ 
-        role: 'admin'
-      })
+      credentials: "include",
+      body: JSON.stringify({
+        role: "user",
+      }),
     });
 
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const data = await response.json();
-    return data;
+    return data; // Возвращаем ответ сервера как есть
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error checking permissions:", error);
     return false;
   }
 }
@@ -40,8 +45,9 @@ onMounted(async () => {
   try {
     // Проверка прав доступа
     const hasAccess = await checkPermission();
-    if (!hasAccess) {
-      router.push("/403");
+    if (hasAccess !== true) {
+      // Проверяем строгое равенство
+      router.push("/403"); // Перенаправление на страницу "Доступ запрещен"
       return;
     }
 
@@ -65,7 +71,7 @@ onMounted(async () => {
     }
   } catch (error) {
     console.error("Ошибка:", error);
-    router.push("/403");
+    router.push("/403"); // Перенаправление на страницу "Доступ запрещен"
   }
 });
 </script>

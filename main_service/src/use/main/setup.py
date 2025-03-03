@@ -56,7 +56,8 @@ def init_logger() -> logging.Logger:
 @asynccontextmanager
 async def lifespan(app_: FastAPI) -> AsyncGenerator[None, None]:
     logger = init_logger()
-    logger.info("Application is starting...", extra={"request_method": None, "request_url": None} )
+    logger.info("Application is starting...",
+                extra={"request_method": None, "request_url": None})
 
     broker: RabbitBroker = await app_.state.dishka_container.get(RabbitBroker)
     await broker.start()
@@ -64,7 +65,8 @@ async def lifespan(app_: FastAPI) -> AsyncGenerator[None, None]:
     yield
 
     await broker.close()
-    logger.info("Application is stopping...", extra={"request_method": None, "request_url": None})
+    logger.info("Application is stopping...",
+                extra={"request_method": None, "request_url": None})
 
 
 def create_app() -> FastAPI:

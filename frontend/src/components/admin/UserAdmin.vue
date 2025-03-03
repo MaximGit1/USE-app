@@ -4,7 +4,7 @@
       <p>Здесь будет управление пользователями</p>
     </div>
   </template>
-  
+
   <style scoped>
   .user-admin {
     padding: 2rem;

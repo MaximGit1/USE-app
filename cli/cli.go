@@ -29,7 +29,7 @@ func main() {
 	if len(args) == 1 {
 		showListCommands()
 		return
-	} 
+	}
 
 	switch args[1] {
 	case "create-admin":
@@ -56,10 +56,10 @@ func main() {
 func showListCommands() {
 	fmt.Println("admin-cli <command> <arg> <arg> ...")
 	fmt.Println()
-	var commands []Command 
+	var commands []Command
 
 	createAdminCommand := NewCommand("create-admin", []string{"<username>", "<password>"})
-	
+
 	commands = append(commands, createAdminCommand)
 
 	i := 1

@@ -1,7 +1,6 @@
-from typing import Annotated
 
 from dishka.integrations.fastapi import DishkaRoute, FromDishka
-from fastapi import APIRouter, Request, Response, Body
+from fastapi import APIRouter, Request, Response
 
 from use.application.auth.service import AuthService
 from use.application.broker_publisher.service import BrokerPublisherService
@@ -13,7 +12,7 @@ from use.application.user.response.models import (
 )
 from use.application.user.service import UserService
 from use.entities.user.enums import RoleEnum
-from use.presentation.auth.schemes import UserLoginInput
+from use.presentation.auth.schemes import RoleRequest, UserLoginInput
 from use.presentation.user.schemes import UserCreateScheme
 
 router = APIRouter(prefix="/auth", tags=["Auth"], route_class=DishkaRoute)
@@ -63,17 +62,20 @@ async def logout(
 async def verify_current_user_role(
     idp: FromDishka[IdentityProvider],
     broker: FromDishka[BrokerPublisherService],
-    role: Annotated[RoleEnum, Body()],
+    role: RoleRequest,
     request: Request,
 ) -> bool:
     idp.update_service(request=request)
     try:
         current_id = idp.get_current_user_id()
         return await broker.auth_verify_user_role(
-            role=role, user_id=current_id
+            role=role.get_role(), user_id=current_id
         )
     except CookieIsNoneError:
-        return RoleEnum.validate_role(user_role=RoleEnum.GUEST, min_role=role)
+        return RoleEnum.validate_role(
+            user_role=RoleEnum.GUEST,
+            min_role=role.get_role()
+        )
 
 
 @router.post(

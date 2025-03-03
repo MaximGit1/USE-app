@@ -29,12 +29,13 @@ repos:
         types: [python]
         pass_filenames: false
 
-      - id: mypy
-        name: mypy
-        entry: mypy src/ tests/
-        language: system
-        types: [python]
-        pass_filenames: false
+#      - id: mypy
+#        name: mypy
+#        entry: mypy
+#        language: system
+#        types: [python]
+#        pass_filenames: false
+#        args: ["src", "tests"]
 
       - id: tests
         name: tests

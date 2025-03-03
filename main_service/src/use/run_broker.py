@@ -18,7 +18,10 @@ async def run_app(app_: FastStream) -> None:
 if __name__ == "__main__":
     load_dotenv()
     broker = RabbitBroker(
-        url=f"amqp://{os.getenv('RABBITMQ_USER', 'guest')}:{os.getenv('RABBITMQ_PASS', 'guest')}@{os.getenv('RABBITMQ_HOST', 'rabbitmq')}:{os.getenv('RABBITMQ_PORT', '5672')}/"
+        url=f"amqp://{os.getenv('RABBITMQ_USER', 'guest')}"
+            f":{os.getenv('RABBITMQ_PASS', 'guest')}"
+            f"@{os.getenv('RABBITMQ_HOST', 'rabbitmq')}"
+            f":{os.getenv('RABBITMQ_PORT', '5672')}/"
     )
     app = FastStream(broker)
     broker.include_router(auth_router)

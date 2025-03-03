@@ -2,15 +2,15 @@ import os
 from collections.abc import AsyncIterator
 from typing import NewType
 
+import redis.asyncio as redis
 from dishka import (
-    AnyOf,
     Provider,
     Scope,
-    provide, from_context,
+    from_context,
+    provide,
 )
 from faststream.rabbit import RabbitBroker
 from redis.asyncio import Redis
-import redis.asyncio as redis
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
     AsyncSession,
@@ -55,7 +55,12 @@ from use.infrastructure.user.repositories import (
     UserReadRepository,
     UserUpdateRepository,
 )
-from use.main.config import Config, create_config, PostgresConfig, JWTConfig, CookieConfig
+from use.main.config import (
+    Config,
+    CookieConfig,
+    JWTConfig,
+    PostgresConfig,
+)
 
 DBURI = NewType("DBURI", str)
 
@@ -64,7 +69,10 @@ Base = declarative_base()
 
 class DBProvider(Provider):
     @provide(scope=Scope.APP)
-    async def create_engine(self, config: PostgresConfig) -> AsyncIterator[AsyncEngine]:
+    async def create_engine(
+        self,
+        config: PostgresConfig
+    ) -> AsyncIterator[AsyncEngine]:
         engine = create_async_engine(
             config.uri,
             echo=config.debug,
@@ -192,19 +200,15 @@ def repository_provider() -> Provider:
 
 def create_rabbit_broker() -> RabbitBroker:
     return RabbitBroker(
-        url=f"amqp://{os.getenv('RABBITMQ_USER', 'guest')}:{os.getenv('RABBITMQ_PASS', 'guest')}@{os.getenv('RABBITMQ_HOST', 'rabbitmq')}:{os.getenv('RABBITMQ_PORT', '5672')}/"
+        url=f"amqp://{os.getenv('RABBITMQ_USER', 'guest')}"
+            f":{os.getenv('RABBITMQ_PASS', 'guest')}"
+            f"@{os.getenv('RABBITMQ_HOST', 'rabbitmq')}"
+            f":{os.getenv('RABBITMQ_PORT', '5672')}/"
     )
 
 
 def create_redis_client() -> Redis:
-    return redis.from_url("redis://redis:6379?decode_responses=True")
-
-
-# def config_provider() -> Provider:
-#     provider = Provider()
-#     provider.provide(create_config, scope=Scope.APP, provides=Config)
-#
-#     return provider
+    return redis.from_url("redis://redis:6379?decode_responses=True")  # type: ignore
 
 
 def broker_provider() -> Provider:
@@ -228,7 +232,6 @@ def get_adapters_providers() -> list[Provider]:
         ConfigProvider(),
         DBProvider(),
         repository_provider(),
-        # config_provider(),
         broker_provider(),
         cache_provider(),
     ]

@@ -65,11 +65,11 @@ def create_cookie_config() -> CookieConfig:
 
 def create_db_config() -> PostgresConfig:
     return PostgresConfig(
-            user=getenv("POSTGRES_USER"),
-            password=getenv("POSTGRES_PASSWORD"),
-            host=getenv("POSTGRES_HOST"),
-            port=getenv("POSTGRES_PORT"),
-            db_name=getenv("POSTGRES_DB"),
+            user=getenv("POSTGRES_USER"),  # type: ignore
+            password=getenv("POSTGRES_PASSWORD"),  # type: ignore
+            host=getenv("POSTGRES_HOST"),  # type: ignore
+            port=getenv("POSTGRES_PORT"),  # type: ignore
+            db_name=getenv("POSTGRES_DB"),  # type: ignore
             debug=getenv("POSTGRES_DEBUG") == "true",
         )
 

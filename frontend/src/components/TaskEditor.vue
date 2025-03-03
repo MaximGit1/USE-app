@@ -45,9 +45,9 @@ const send_task_to_run = async () => {
         errorMessage.value = 'Ошибка: задача не выбрана'
         return
     }
-    
+
     const code = codeEditor.value.getValue()
-    
+
     if (code.trim().length < 10) {
         errorMessage.value = 'Ошибка: код должен содержать не менее 10 символов.'
         testResult.value = null
@@ -85,7 +85,7 @@ const send_task_to_run = async () => {
             res: data.res,
             completed_time: data.completed_time
         }
-        
+
     } catch (error) {
         console.error('Full error:', error)
         errorMessage.value = `Ошибка выполнения: ${error.message}`
@@ -101,9 +101,9 @@ const send_task_to_run = async () => {
     </div>
 
     <div class="solution">
-        <button 
-            class="btn btn-sm btn-outline-primary" 
-            @click="send_task_to_run" 
+        <button
+            class="btn btn-sm btn-outline-primary"
+            @click="send_task_to_run"
             :disabled="isButtonDisabled"
         >
             {{ isButtonDisabled ? 'Выполнение...' : 'Запустить' }}

@@ -10,8 +10,8 @@ from use.application.user.response.models import (
     UserFullBodyResponse,
 )
 from use.application.user.service import UserService
-from use.entities.user.enums import RoleEnum
 from use.presentation.common.schemes import PaginationParams
+from use.presentation.user.schemes import UserRoleScheme
 
 router = APIRouter(prefix="/users", tags=["Users"], route_class=DishkaRoute)
 
@@ -45,12 +45,12 @@ async def get_user_by_username(
 @router.patch("/{user_id}/update/role")
 async def update_role(
     user_id: int,
-    role: Annotated[RoleEnum, Body()] ,
+    role: UserRoleScheme,
     user_service: FromDishka[UserService],
 ) -> None:
     await user_service.change_role(
         user_id=user_id,
-        role=role,
+        role=role.get_role(),
     )
 
 

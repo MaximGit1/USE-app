@@ -49,15 +49,19 @@ async function checkPermission() {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         role: 'admin'
       })
     });
 
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const data = await response.json();
-    return data;
+    return data;  // Возвращаем ответ сервера как есть
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error checking permissions:', error);
     return false;
   }
 }
@@ -65,12 +69,12 @@ async function checkPermission() {
 onMounted(async () => {
   try {
     const hasAccess = await checkPermission();
-    if (!hasAccess) {
-      router.push('/403'); // Перенаправление на страницу "Доступ запрещен"
+    if (hasAccess !== true) {  // Проверяем строгое равенство
+      router.push('/403');  // Перенаправление на страницу "Доступ запрещен"
     }
   } catch (error) {
     console.error('Ошибка:', error);
-    router.push('/login'); // Перенаправление на страницу входа
+    router.push('/login');  // Перенаправление на страницу входа
   }
 });
 </script>

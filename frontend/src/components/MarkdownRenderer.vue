@@ -9,18 +9,18 @@ const props = defineProps({
 
 const renderMarkdown = (text) => {
     const renderer = new marked.Renderer();
-    
+
     renderer.code = (code, language) => {
         const codeString = String(code || '').trim();
         const lang = (language || 'plaintext').toLowerCase();
         const validLang = hljs.getLanguage(lang) ? lang : 'plaintext';
-        
+
         try {
-            const highlighted = hljs.highlight(codeString, { 
+            const highlighted = hljs.highlight(codeString, {
                 language: validLang,
-                ignoreIllegals: true 
+                ignoreIllegals: true
             }).value;
-            
+
             return `<pre><code class="hljs language-${validLang}">${highlighted}</code></pre>`;
         } catch (e) {
             return `<pre><code>${codeString}</code></pre>`;

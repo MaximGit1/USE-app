@@ -41,18 +41,18 @@ const confirmDelete = async () => {
     return
   }
   const apiUrl = import.meta.env.VITE_API_URL;
-  
+
   try {
     const deleteTask = apiUrl + `/tasks/${taskId.value}/`;
     const response = await axios.delete(deleteTask)
-    
+
     if (response.status === 200) {
       $toast.success(`Задача с ID ${taskId.value} поставлена в очередь на удаление!`)
       taskId.value = null // Сбросить поле ввода
     }
   } catch (error) {
     console.error('Ошибка при удалении задачи:', error)
-    
+
     if (error.response) {
       if (error.response.status === 404) {
         $toast.error(`Задача с ID ${taskId.value} не найдена.`)
