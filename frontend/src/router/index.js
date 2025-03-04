@@ -5,6 +5,8 @@ import TheoryPage from '../pages/TheoryPage.vue'
 import LoginPage from '../pages/LoginPage.vue'
 import Error403Page from '../pages/Error403Page.vue'
 import AdminPage from '../pages/AdminPage.vue'
+import ProfilePage from '../pages/ProfilePage.vue'
+
 
 const routes = [
     { path: '/', component: TaskListPage },
@@ -13,7 +15,9 @@ const routes = [
     { path: '/login', component: LoginPage },
     { path: '/403',  name: 'Error403', component: Error403Page },
     { path: '/admin', component: AdminPage },
+    { path: '/profile', component: ProfilePage },
 ]
+
 
 const router = createRouter({
     history: createWebHistory(),
