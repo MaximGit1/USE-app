@@ -26,3 +26,11 @@ class TaskReadProtocol(Protocol):
     async def get_all_completed_task_ids(
         self, base_task_id: TaskID
     ) -> list[TaskID]: ...
+
+    @abstractmethod
+    async def get_completed_task_ids_by_user_id(
+        self, user_id: UserID
+    ) -> list[TaskID]: ...
+
+    @abstractmethod
+    async def get_count_tasks(self, task_type: int) -> int: ...

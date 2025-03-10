@@ -1,4 +1,3 @@
-
 from dishka.integrations.fastapi import DishkaRoute, FromDishka
 from fastapi import APIRouter, Request, Response
 
@@ -73,8 +72,7 @@ async def verify_current_user_role(
         )
     except CookieIsNoneError:
         return RoleEnum.validate_role(
-            user_role=RoleEnum.GUEST,
-            min_role=role.get_role()
+            user_role=RoleEnum.GUEST, min_role=role.get_role()
         )
 
 

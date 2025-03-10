@@ -67,18 +67,18 @@ DBURI = NewType("DBURI", str)
 
 Base = declarative_base()
 
+
 class DBProvider(Provider):
     @provide(scope=Scope.APP)
     async def create_engine(
-        self,
-        config: PostgresConfig
+        self, config: PostgresConfig
     ) -> AsyncIterator[AsyncEngine]:
         engine = create_async_engine(
             config.uri,
             echo=config.debug,
             pool_size=20,
             max_overflow=10,
-            pool_pre_ping=True
+            pool_pre_ping=True,
         )
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
@@ -87,30 +87,26 @@ class DBProvider(Provider):
 
     @provide(scope=Scope.APP)
     def sessionmaker(
-        self,
-        engine: AsyncEngine
+        self, engine: AsyncEngine
     ) -> async_sessionmaker[AsyncSession]:
         return async_sessionmaker(
-            engine,
-            expire_on_commit=False,
-            class_=AsyncSession
+            engine, expire_on_commit=False, class_=AsyncSession
         )
 
     @provide(scope=Scope.REQUEST)
     async def get_session(
-        self,
-        sessionmaker: async_sessionmaker[AsyncSession]
+        self, sessionmaker: async_sessionmaker[AsyncSession]
     ) -> AsyncIterator[AsyncSession]:
         async with sessionmaker() as session:
             yield session
 
     @provide(scope=Scope.REQUEST)
     async def provide_uow(
-        self,
-        session: AsyncSession
+        self, session: AsyncSession
     ) -> AsyncIterator[UoWProtocol]:
         async with session.begin():
             yield SqlAlchemyUoW(session)
+
 
 class ConfigProvider(Provider):
     config = from_context(provides=Config, scope=Scope.APP)
@@ -201,9 +197,9 @@ def repository_provider() -> Provider:
 def create_rabbit_broker() -> RabbitBroker:
     return RabbitBroker(
         url=f"amqp://{os.getenv('RABBITMQ_USER', 'guest')}"
-            f":{os.getenv('RABBITMQ_PASS', 'guest')}"
-            f"@{os.getenv('RABBITMQ_HOST', 'rabbitmq')}"
-            f":{os.getenv('RABBITMQ_PORT', '5672')}/"
+        f":{os.getenv('RABBITMQ_PASS', 'guest')}"
+        f"@{os.getenv('RABBITMQ_HOST', 'rabbitmq')}"
+        f":{os.getenv('RABBITMQ_PORT', '5672')}/"
     )
 
 

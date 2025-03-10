@@ -1,7 +1,7 @@
 from collections.abc import Sequence
 from typing import Any
 
-from sqlalchemy import Row, select
+from sqlalchemy import Row, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from use.application.common.request.models import PaginationParams, SortOrder
@@ -104,3 +104,24 @@ class TaskReadRepository(TaskReadProtocol):
         )
         result = await self._session.execute(stmt)
         return [TaskID(row[0]) for row in result.fetchall()]
+
+    async def get_completed_task_ids_by_user_id(
+        self, user_id: UserID
+    ) -> list[TaskID]:
+        stmt = (
+            select(completed_tasks_table.c.task_id)
+            .join(
+                tasks_table,
+                completed_tasks_table.c.task_id == tasks_table.c.id,
+            )
+            .where(completed_tasks_table.c.user_id == user_id.value)
+        )
+        result = await self._session.execute(stmt)
+        return [TaskID(row[0]) for row in result.fetchall()]
+
+    async def get_count_tasks(self, task_type: int) -> int:
+        stmt = select(func.count(tasks_table.c.id)).where(
+            tasks_table.c.type == task_type
+        )
+        result = await self._session.execute(stmt)
+        return result.scalar()

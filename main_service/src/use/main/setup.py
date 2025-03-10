@@ -11,12 +11,13 @@ from use.main.di.main import container_factory
 from use.presentation.auth.api_router import router as auth_router
 from use.presentation.common.exc_handlers import init_exc_handlers
 from use.presentation.common.middlewares.setup import init_middleware
+from use.presentation.stats.api_router import router as stats_router
 from use.presentation.task.api_router import router as task_router
 from use.presentation.user.api_router import router as user_router
 
 
 def init_routers(app: FastAPI) -> None:
-    routers = (auth_router, user_router, task_router)
+    routers = (auth_router, user_router, task_router, stats_router)
 
     for router in routers:
         app.include_router(router, prefix="/api/v1")
@@ -56,8 +57,10 @@ def init_logger() -> logging.Logger:
 @asynccontextmanager
 async def lifespan(app_: FastAPI) -> AsyncGenerator[None, None]:
     logger = init_logger()
-    logger.info("Application is starting...",
-                extra={"request_method": None, "request_url": None})
+    logger.info(
+        "Application is starting...",
+        extra={"request_method": None, "request_url": None},
+    )
 
     broker: RabbitBroker = await app_.state.dishka_container.get(RabbitBroker)
     await broker.start()
@@ -65,8 +68,10 @@ async def lifespan(app_: FastAPI) -> AsyncGenerator[None, None]:
     yield
 
     await broker.close()
-    logger.info("Application is stopping...",
-                extra={"request_method": None, "request_url": None})
+    logger.info(
+        "Application is stopping...",
+        extra={"request_method": None, "request_url": None},
+    )
 
 
 def create_app() -> FastAPI:

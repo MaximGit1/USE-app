@@ -9,5 +9,5 @@ def container_factory() -> AsyncContainer:
     return make_async_container(
         *get_adapters_providers(),
         *get_use_cases_providers(),
-        context={Config: create_config()}
+        context={Config: create_config()},
     )

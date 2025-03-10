@@ -9,6 +9,7 @@ if TYPE_CHECKING:
 
     from sqlalchemy.ext.asyncio import AsyncSession
 
+
 class SqlAlchemyUoW(UoWProtocol):
     def __init__(self, session: AsyncSession) -> None:
         self._session = session
@@ -29,10 +30,10 @@ class SqlAlchemyUoW(UoWProtocol):
         return self
 
     async def __aexit__(
-            self,
-            exc_type: type[BaseException] | None,
-            exc_val: BaseException | None,
-            exc_tb: types.TracebackType | None,
+        self,
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: types.TracebackType | None,
     ) -> None:
         if exc_type:
             await self.rollback()

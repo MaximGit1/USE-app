@@ -15,3 +15,11 @@ class TaskTypeEnum(IntEnum):
                 return cls[value]
         err_msg = f"task type cannot be {task_type}"
         raise TaskEntityValidationError(err_msg)
+
+    @classmethod
+    def get_types(cls) -> list[int]:
+        values = cls._member_map_
+        return [int(values[key]) for key in values]
+
+
+ALL_TASK_TYPES = TaskTypeEnum.get_types()

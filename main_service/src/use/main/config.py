@@ -21,6 +21,7 @@ class CookieConfig:
     access_token_key: str
     max_age_days: int
 
+
 @dataclass(frozen=True, slots=True)
 class PostgresConfig:
     user: str
@@ -63,15 +64,17 @@ def create_cookie_config() -> CookieConfig:
         max_age_days=max_age_days,
     )
 
+
 def create_db_config() -> PostgresConfig:
     return PostgresConfig(
-            user=getenv("POSTGRES_USER"),  # type: ignore
-            password=getenv("POSTGRES_PASSWORD"),  # type: ignore
-            host=getenv("POSTGRES_HOST"),  # type: ignore
-            port=getenv("POSTGRES_PORT"),  # type: ignore
-            db_name=getenv("POSTGRES_DB"),  # type: ignore
-            debug=getenv("POSTGRES_DEBUG") == "true",
-        )
+        user=getenv("POSTGRES_USER"),  # type: ignore
+        password=getenv("POSTGRES_PASSWORD"),  # type: ignore
+        host=getenv("POSTGRES_HOST"),  # type: ignore
+        port=getenv("POSTGRES_PORT"),  # type: ignore
+        db_name=getenv("POSTGRES_DB"),  # type: ignore
+        debug=getenv("POSTGRES_DEBUG") == "false",
+    )
+
 
 def create_config() -> Config:
     base_path: Path = Path.cwd().parent.parent

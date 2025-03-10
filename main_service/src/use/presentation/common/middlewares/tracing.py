@@ -32,7 +32,9 @@ def setup_logging() -> logging.Logger:
 
     return logger
 
+
 logger = setup_logging()
+
 
 class BoundCode(IntEnum):
     INFORMATION = 199

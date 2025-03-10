@@ -139,9 +139,7 @@ class TaskService:
         try:
             await self._delete.base_task(task_id=TaskID(task_id))
             task_ids = self._read.get_all_completed_task_ids
-            for completed_task_id in await task_ids(
-                TaskID(task_id)
-            ):
+            for completed_task_id in await task_ids(TaskID(task_id)):
                 await self._delete.completed_task(completed_task_id)
             await self._uow.commit()
         except Exception:

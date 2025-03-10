@@ -11,6 +11,7 @@ class UserCreateScheme(BaseModel):
     def get_data(self) -> tuple[Username, RawPassword]:
         return Username(self.username), RawPassword(self.password)
 
+
 class UserRoleScheme(BaseModel):
     role: str
 

@@ -32,10 +32,8 @@ class TaskCreateRepository(TaskCreateProtocol):
         self, task: TaskCompletedResponse
     ) -> TaskID:
         stmt = (
-            completed_tasks_table.insert()
-            .values(task.get_data())
-            .returning(tasks_table.c.id)
-        )
+            completed_tasks_table.insert().values(task.get_data())
+        ).returning(completed_tasks_table.c.id)
         result = await self._session.execute(stmt)
         new_id = result.scalar_one()
 
