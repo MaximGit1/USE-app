@@ -6,6 +6,7 @@ import LoginPage from '../pages/LoginPage.vue'
 import Error403Page from '../pages/Error403Page.vue'
 import AdminPage from '../pages/AdminPage.vue'
 import ProfilePage from '../pages/ProfilePage.vue'
+import RegisterPage from '../pages/RegisterPage.vue'
 
 
 const routes = [
@@ -16,6 +17,7 @@ const routes = [
     { path: '/403',  name: 'Error403', component: Error403Page },
     { path: '/admin', component: AdminPage },
     { path: '/profile', component: ProfilePage },
+    { path: '/register', component: RegisterPage },
 ]
 
 

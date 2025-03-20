@@ -4,41 +4,32 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-
 const apiUrl = import.meta.env.VITE_API_URL;
-const authLogin = apiUrl + "/auth/login/";
-// Данные формы
+const authRegister = apiUrl + "/auth/register/";
+
 const username = ref("");
 const password = ref("");
 const errorMessage = ref("");
 const isLoading = ref(false);
 
-// Функция входа
-const login = async () => {
+const register = async () => {
   errorMessage.value = "";
   isLoading.value = true;
 
   try {
-    const response = await axios.post(authLogin,
-    {
-        username: username.value,
-        password: password.value,
-      },
-      { withCredentials: true }
-    ); // Обязательно для работы с куками!
+    const response = await axios.post(authRegister, {
+      username: username.value,
+      password: password.value,
+    });
 
-    if (response.status === 200) {
-      alert("Успешный вход!");
-      router.push("/"); // Перенаправляем пользователя
-      // Диспетчеризация события для обновления статуса в HeaderMenu.vue
-      window.dispatchEvent(new Event("auth-change"));
-      // Или вызвать checkAuth() напрямую:
-      checkAuth();
+    if (response.status === 201) {
+      alert("Регистрация успешна! Перенаправление на страницу входа.");
+      router.push("/login");
     }
   } catch (error) {
     errorMessage.value =
       error.response?.status === 401
-        ? "Ошибка авторизации. Проверьте логин и пароль."
+        ? "Ошибка авторизации. Попробуйте снова."
         : "Ошибка сервера. Попробуйте позже.";
   } finally {
     isLoading.value = false;
@@ -47,7 +38,7 @@ const login = async () => {
 </script>
 
 <template>
-  <form @submit.prevent="login" class="login-form">
+  <form @submit.prevent="register" class="register-form">
     <div class="form-group">
       <label for="username">Имя пользователя</label>
       <input
@@ -71,15 +62,15 @@ const login = async () => {
       />
     </div>
     <button type="submit" class="btn btn-primary w-100" :disabled="isLoading">
-      {{ isLoading ? "Вход..." : "Войти" }}
+      {{ isLoading ? "Регистрация..." : "Зарегистрироваться" }}
     </button>
     <p v-if="errorMessage" class="text-danger mt-2">{{ errorMessage }}</p>
-    <p class="mt-2">Нет аккаунта? <router-link to="/register">Попробовать</router-link></p>
+    <p class="mt-2">Уже есть аккаунт? <router-link to="/login">Войти</router-link></p>
   </form>
 </template>
 
 <style scoped>
-.login-form {
+.register-form {
   max-width: 400px;
   margin: auto;
   padding: 20px;
