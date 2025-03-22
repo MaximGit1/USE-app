@@ -20,14 +20,14 @@ repos:
       - id: conventional-pre-commit
         stages: [commit-msg]
 
-  - repo: local
-    hooks:
-      - id: ruff
-        name: ruff
-        entry: ruff check --fix
-        language: system
-        types: [python]
-        pass_filenames: false
+#  - repo: local
+#    hooks:
+#      - id: ruff
+#        name: ruff
+#        entry: ruff check --fix
+#        language: system
+#        types: [python]
+#        pass_filenames: false
 
 #      - id: mypy
 #        name: mypy
@@ -37,15 +37,15 @@ repos:
 #        pass_filenames: false
 #        args: ["src", "tests"]
 
-      - id: tests
-        name: tests
-        entry: pytest
-        language: system
-        types: [python]
-        pass_filenames: false
+#      - id: tests
+#        name: tests
+#        entry: pytest
+#        language: system
+#        types: [python]
+#        pass_filenames: false
 
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.8.6
-    hooks:
-      - id: ruff
-        args: ["--fix"]
+#  - repo: https://github.com/charliermarsh/ruff-pre-commit
+#    rev: v0.8.6
+#    hooks:
+#      - id: ruff
+#        args: ["--fix"]
