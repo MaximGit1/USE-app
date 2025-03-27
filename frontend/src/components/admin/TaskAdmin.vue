@@ -17,10 +17,6 @@
     <div class="task-content">
       <!-- Компонент добавления задачи -->
       <TaskAdd v-if="activeAction === 'create'" />
-
-      <!-- Компонент редактирования задачи -->
-      <TaskEdit v-if="activeAction === 'edit'" />
-
       <!-- Компонент удаления задачи -->
       <TaskDelete v-if="activeAction === 'delete'" />
     </div>
@@ -30,15 +26,13 @@
 <script setup>
 import { ref } from "vue";
 import TaskAdd from "./TaskAdmin/TaskAdd.vue";
-import TaskEdit from "./TaskAdmin/TaskEdit.vue";
 import TaskDelete from "./TaskAdmin/TaskDelete.vue";
 
 const activeAction = ref("create");
 
-const actions = ["create", "edit", "delete"];
+const actions = ["create", "delete"];
 const actionLabels = {
   create: "Добавить задачу",
-  edit: "Редактировать задачу",
   delete: "Удалить задачу",
 };
 </script>
