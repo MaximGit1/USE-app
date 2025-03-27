@@ -125,3 +125,17 @@ class TaskReadRepository(TaskReadProtocol):
         )
         result = await self._session.execute(stmt)
         return result.scalar()
+
+    async def get_count_completed_tasks_by_type(self, task_type: int) -> int:
+        stmt = (
+            select(func.count(func.distinct(completed_tasks_table.c.user_id)))
+            .select_from(
+                completed_tasks_table.join(
+                    tasks_table,
+                    completed_tasks_table.c.task_id == tasks_table.c.id  # Явное указание связи
+                )
+            )
+            .where(tasks_table.c.type == task_type)
+        )
+        result = await self._session.execute(stmt)
+        return result.scalar() or 0

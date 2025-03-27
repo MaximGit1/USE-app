@@ -12,5 +12,4 @@ class TaskProfileStatsResponse:
 @dataclass(frozen=True)
 class TaskAdminStatsResponse:
     task_type: int
-    all_tasks: int
-    completed_percent: int
+    completed_percent: float

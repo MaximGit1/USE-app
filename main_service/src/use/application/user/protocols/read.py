@@ -21,3 +21,6 @@ class UserReadProtocol(Protocol):
     async def get_all(
         self, pagination: PaginationParams, filters: SearchFilters
     ) -> list[User]: ...
+
+    @abstractmethod
+    async def get_users_count(self) -> int: ...

@@ -1,7 +1,7 @@
 from collections.abc import Sequence
 from typing import Any
 
-from sqlalchemy import Row, asc, desc, select
+from sqlalchemy import Row, asc, desc, select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from use.application.common.request.models import (
@@ -69,6 +69,11 @@ class UserReadRepository(UserReadProtocol):
         result = await self._session.execute(stmt)
 
         return self._load_users(result.all())
+
+    async def get_users_count(self) -> int:
+        stmt = select(func.count()).select_from(users_table)
+        result = await self._session.execute(stmt)
+        return result.scalar_one()
 
     def _load_user(self, row: Row[Any]) -> User:
         return User(

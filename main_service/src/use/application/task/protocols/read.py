@@ -34,3 +34,6 @@ class TaskReadProtocol(Protocol):
 
     @abstractmethod
     async def get_count_tasks(self, task_type: int) -> int: ...
+
+    @abstractmethod
+    async def get_count_completed_tasks_by_type(self, task_type: int) -> int: ...

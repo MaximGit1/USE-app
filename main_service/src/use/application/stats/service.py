@@ -1,14 +1,16 @@
 from use.application.stats.response import (
-    TaskProfileStatsResponse,
+    TaskProfileStatsResponse, TaskAdminStatsResponse,
 )
 from use.application.task.protocols import TaskReadProtocol
+from use.application.user.protocols import UserReadProtocol
 from use.entities.task.enums import ALL_TASK_TYPES
 from use.entities.user.value_objects import UserID
 
 
 class StatsService:
-    def __init__(self, task_read: TaskReadProtocol) -> None:
+    def __init__(self, task_read: TaskReadProtocol, user_read: UserReadProtocol) -> None:
         self._task_read = task_read
+        self._user_read = user_read
 
     async def get_task_by_task_type_profile_data(
         self, user_id: int, task_type: int
@@ -48,3 +50,18 @@ class StatsService:
             )
             for task_type in ALL_TASK_TYPES
         ]
+
+    async def get_tasks_admin_data(self) -> list[TaskAdminStatsResponse]:
+        stats = []
+        total_users = await self._user_read.get_users_count()
+        for task_type in ALL_TASK_TYPES:
+            completed_users = await self._task_read.get_count_completed_tasks_by_type(task_type)
+            percent = round((completed_users / total_users) * 100, 2) if total_users else 0.0
+
+            stats.append(
+                TaskAdminStatsResponse(
+                    task_type=task_type,
+                    completed_percent=percent,
+                )
+            )
+        return stats
